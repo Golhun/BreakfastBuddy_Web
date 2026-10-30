@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@source "hugo_stats.json";
+
+@theme {
+	/* Breakfast Buddy colours */
+	--color-bb-red: #fc3b31;
+	--color-bb-gold: #feae10;
+	--color-bb-cocoa: #4e3c33;
+	--color-bb-cream: #fefbec;
+	--color-bb-butter: #fdf5cd;
+
+	/* Brand typography */
+	--font-display: "Montserrat", sans-serif;
+	--font-body: "Karla", sans-serif;
+}
+
+@layer base {
+	html,
+	body {
+		max-width: 100%;
+		overflow-x: clip;
+	}
+
+	body {
+		@apply bg-bb-cream text-bb-cocoa font-body;
+		background-image: none;
+	}
+
+	h1,
+	h2,
+	h3 {
+		@apply font-display;
+	}
+
+	button,
+	a {
+		@apply transition-colors duration-200;
+	}
+
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-bb-red;
+	}
+}
+
+@layer components {
+	.field-label {
+		@apply grid gap-2 text-sm font-bold text-bb-cocoa;
+	}
+
+	.field-label > span[aria-hidden="true"] {
+		@apply text-bb-red;
+	}
+
+	.field-input {
+		@apply w-full rounded-lg border border-bb-cocoa/15 bg-bb-cream px-4 py-3.5 font-body font-normal text-bb-cocoa placeholder:text-bb-cocoa/35 focus:border-bb-red focus:outline-none focus:ring-2 focus:ring-bb-red/15;
+	}
+}

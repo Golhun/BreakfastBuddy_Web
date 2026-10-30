@@ -1,0 +1,142 @@
+{{ define "main" }}
+<section class="mx-auto w-full min-w-0 max-w-6xl overflow-x-clip px-4 py-6 sm:px-6 sm:py-12">
+	<div class="grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(22rem,0.92fr)] lg:gap-8">
+		<div class="min-w-0">
+			<header data-intro-card class="overflow-hidden rounded-xl bg-white p-5 shadow-[0_18px_60px_rgba(78,60,51,0.08)] sm:p-8">
+				<div class="flex min-w-0 items-start justify-between gap-3 sm:gap-5">
+					<div class="min-w-0">
+						<h1 class="text-2xl leading-tight sm:text-4xl">Choose your breakfast</h1>
+						<p class="mt-2 max-w-xl text-sm leading-6 text-bb-cocoa/65">Pick a package, then add any extras.</p>
+					</div>
+					<a href="#order-summary" class="relative flex size-11 shrink-0 items-center justify-center rounded-lg bg-bb-butter text-bb-cocoa transition-transform hover:-translate-y-0.5 sm:size-12" aria-label="Review your preorder">
+						<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-6"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+						<span data-cart-count class="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-bb-red text-[10px] font-bold text-white">0</span>
+					</a>
+				</div>
+			</header>
+
+			<section class="mt-7" aria-labelledby="menu-heading">
+				<div class="flex min-w-0 items-end justify-between gap-3 px-1">
+					<h2 id="menu-heading" class="text-2xl sm:text-3xl">Choose a meal</h2>
+					<p class="text-xs text-bb-cocoa/50">3 packages</p>
+				</div>
+
+				<div class="mt-5 space-y-4">
+					{{ range hugo.Data.menu.items }}
+					<article data-meal-card class="group grid min-w-0 grid-cols-[5.75rem_minmax(0,1fr)] items-center gap-2 overflow-hidden rounded-xl bg-white p-3 shadow-[0_12px_38px_rgba(78,60,51,0.07)] transition-shadow duration-300 hover:shadow-[0_16px_42px_rgba(78,60,51,0.11)] sm:grid-cols-[9rem_minmax(0,1fr)] sm:overflow-visible sm:py-4 sm:pl-0 sm:pr-5">
+						{{ if .image }}
+						<div class="flex aspect-square min-w-0 items-center justify-center sm:-ml-5">
+							<img src="{{ .image | relURL }}" alt="{{ .name }}" loading="lazy" width="320" height="320" class="h-full w-full object-contain drop-shadow-[0_12px_18px_rgba(78,60,51,0.18)] transition-transform duration-300 sm:scale-110 sm:group-hover:scale-[1.14]" />
+						</div>
+						{{ else }}
+						<div class="flex aspect-square w-full flex-col items-center justify-center rounded-lg bg-bb-butter text-center">
+							<span class="text-5xl" aria-hidden="true">🥣</span>
+							<span class="mt-1 px-2 text-[9px] leading-3 text-bb-cocoa/50">Photo coming soon</span>
+						</div>
+						{{ end }}
+
+						<div class="min-w-0 py-1">
+							<h3 class="truncate text-lg sm:text-xl">{{ .name }}</h3>
+							<p class="mt-1 line-clamp-2 text-xs leading-5 text-bb-cocoa/60">{{ .description }}</p>
+							<div class="mt-3 grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+								<p class="font-display text-lg text-bb-cocoa sm:text-xl">GH₵{{ printf "%.2f" (div (float .base_price_pesewas) 100) }}</p>
+								<button type="button" data-customize-meal="{{ .id }}" data-meal-name="{{ .name }}" data-meal-image="{{ .image | relURL }}" data-base-price-pesewas="{{ .base_price_pesewas }}" data-included="{{ delimit .included "|" }}" data-addon-ids="{{ delimit .addon_ids "," }}" class="shrink-0 rounded-lg bg-bb-red px-3 py-2 text-[11px] font-bold text-white hover:bg-bb-cocoa focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bb-red sm:px-4 sm:text-xs">Add extras</button>
+							</div>
+						</div>
+					</article>
+					{{ end }}
+				</div>
+			</section>
+
+			<section class="mt-8 rounded-xl bg-white p-6 shadow-[0_18px_60px_rgba(78,60,51,0.08)] sm:p-8" aria-labelledby="details-heading">
+				<h2 id="details-heading" class="text-2xl sm:text-3xl">Continue on WhatsApp</h2>
+				<p class="mt-3 text-sm leading-6 text-bb-cocoa/60">Enter the number we should use for your order.</p>
+
+				<form id="preorder-form" class="mt-6 grid gap-5">
+					<label class="field-label">Phone number <span aria-hidden="true">*</span>
+						<input name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20" placeholder="e.g. 024 000 0000" class="field-input" />
+					</label>
+					<label class="field-label">Order note <span class="font-normal text-bb-cocoa/45">(optional)</span>
+						<textarea name="note" maxlength="250" rows="2" class="field-input resize-y"></textarea>
+					</label>
+					<p class="rounded-lg bg-bb-butter/70 p-4 text-xs leading-5 text-bb-cocoa/70">We’ll confirm your name, delivery details, availability and payment in WhatsApp. Never share your MoMo PIN.</p>
+				</form>
+			</section>
+		</div>
+
+		<aside id="order-summary" class="min-w-0 overflow-hidden rounded-xl bg-white shadow-[0_22px_70px_rgba(78,60,51,0.12)] lg:sticky lg:top-6" aria-labelledby="summary-heading">
+			<div class="relative flex min-h-52 items-center justify-center bg-bb-butter p-8 sm:min-h-64">
+				<div class="absolute left-5 top-5 rounded-full bg-white/85 px-4 py-2 text-xs font-bold backdrop-blur">Your preorder</div>
+				<div class="text-center">
+					<img src="{{ "/images/brand/breakfast-buddy-logo.png" | relURL }}" alt="" class="mx-auto h-32 w-32 object-contain sm:h-40 sm:w-40" />
+					<p class="mt-2 font-display text-xl">A brighter morning awaits</p>
+				</div>
+			</div>
+
+			<div class="p-6 sm:p-8">
+				<div class="flex items-center justify-between gap-4">
+					<div>
+						<h2 id="summary-heading" class="text-2xl">Your order</h2>
+					</div>
+					<span class="rounded-full bg-bb-butter px-3 py-2 text-xs font-bold"><span data-cart-count>0</span> items</span>
+				</div>
+
+				<ul id="cart-items" aria-live="polite" class="mt-5 space-y-1 text-sm"><li class="rounded-lg bg-bb-cream px-4 py-6 text-center text-bb-cocoa/50">Your selected meals will appear here.</li></ul>
+
+				<button id="clear-cart" type="button" class="mt-4 text-xs font-bold text-bb-red underline decoration-2 underline-offset-4 hover:text-bb-cocoa">Clear selection</button>
+
+				<div class="mt-6 space-y-3 border-t border-bb-cocoa/10 pt-5 text-sm">
+					<div class="flex justify-between gap-4"><span class="text-bb-cocoa/55">Delivery fee</span><span class="font-bold">Confirmed later</span></div>
+					<div class="flex items-end justify-between gap-4"><span class="font-bold">Order subtotal</span><span id="cart-total" class="font-display text-3xl text-bb-cocoa" aria-live="polite">GH₵0.00</span></div>
+				</div>
+
+				<button type="submit" form="preorder-form" disabled class="mt-6 w-full cursor-not-allowed rounded-lg bg-bb-cocoa/40 px-6 py-4 text-sm font-bold text-white" aria-describedby="checkout-availability">Create preorder &amp; continue</button>
+				<p id="checkout-availability" class="mt-3 text-center text-[11px] leading-5 text-bb-cocoa/55">Secure order saving must be connected before WhatsApp checkout can be enabled.</p>
+			</div>
+		</aside>
+	</div>
+</section>
+
+<div hidden aria-hidden="true">
+	{{ range hugo.Data.menu.addons }}
+	<span data-addon-definition data-addon-id="{{ .id }}" data-addon-name="{{ .name }}" data-addon-unit="{{ .unit }}" data-addon-price-pesewas="{{ .price_pesewas }}"></span>
+	{{ end }}
+</div>
+
+<dialog id="customize-dialog" class="m-auto max-h-[90vh] w-[calc(100%_-_1.5rem)] max-w-[32rem] overflow-hidden rounded-xl bg-white p-0 text-bb-cocoa shadow-2xl backdrop:bg-bb-cocoa/55" aria-labelledby="customize-title">
+	<div class="max-h-[90vh] overflow-y-auto">
+		<div class="relative flex h-44 items-center justify-center overflow-hidden bg-bb-butter sm:h-52">
+			<img id="customize-image" src="" alt="" class="h-44 w-44 object-contain drop-shadow-[0_16px_22px_rgba(78,60,51,0.2)] sm:h-52 sm:w-52" />
+			<button id="close-customize" type="button" class="absolute right-4 top-4 flex size-9 items-center justify-center rounded-lg bg-white text-xl shadow-sm hover:bg-bb-cream" aria-label="Close customization">×</button>
+		</div>
+		<header class="border-b border-bb-cocoa/10 bg-white px-5 py-4 sm:px-6">
+			<h2 id="customize-title" class="text-2xl">Meal package</h2>
+			<p class="mt-1 text-sm text-bb-cocoa/55">Your base package is fixed. Add only what you want.</p>
+		</header>
+
+		<div class="px-5 py-5 sm:px-6">
+			<section aria-labelledby="included-heading">
+				<div class="flex items-center justify-between gap-3">
+					<h3 id="included-heading" class="text-sm">Included in your package</h3>
+					<span class="rounded-full bg-bb-butter px-3 py-1 text-[11px] font-bold">Included</span>
+				</div>
+				<ul id="included-items" class="mt-3 grid gap-2 text-sm"></ul>
+			</section>
+
+			<section class="mt-6 border-t border-bb-cocoa/10 pt-5" aria-labelledby="addons-heading">
+				<h3 id="addons-heading" class="text-sm">Add extras</h3>
+				<p class="mt-1 text-xs leading-5 text-bb-cocoa/55">Optional extras are limited to {{ hugo.Data.menu.settings.addon_max_quantity }} of each item per package.</p>
+				<div id="addon-controls" class="mt-3 grid gap-2"></div>
+			</section>
+		</div>
+
+		<footer class="sticky bottom-0 flex items-center justify-between gap-4 border-t border-bb-cocoa/10 bg-white px-5 py-4 sm:px-6">
+			<div>
+				<p class="text-xs text-bb-cocoa/50">Total</p>
+				<p id="customize-total" class="font-display text-2xl">GH₵0.00</p>
+			</div>
+			<button id="add-customized-package" type="button" class="rounded-lg bg-bb-red px-5 py-3 text-sm font-bold text-white hover:bg-bb-cocoa">Add package</button>
+		</footer>
+	</div>
+</dialog>
+{{ end }}

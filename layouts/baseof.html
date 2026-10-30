@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale }}">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<meta name="theme-color" content="#FEFBEC" />
+		<meta
+			name="description"
+			content="Breakfast Buddy — Good Food, Brighter Days."
+		/>
+
+		<title>{{ site.Title }}</title>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+		<link
+			href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700&amp;family=Montserrat:wght@600;700;800&amp;display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Tailwind CSS -->
+		{{ with (templates.Defer (dict "key" "global-css")) }} {{ partial "css.html"
+		. }} {{ end }}
+	</head>
+
+	<body class="min-h-screen">
+		<main>{{ block "main" . }}{{ end }}</main>
+
+		<footer class="mt-10 bg-bb-cocoa px-5 py-10 text-center text-bb-cream">
+			<img src="{{ "/images/brand/breakfast-buddy-logo.png" | relURL }}" alt="Breakfast Buddy" class="mx-auto h-20 w-20 rounded-lg bg-bb-cream object-contain p-1" />
+			<p class="mt-2 text-sm">Good Food • Brighter Days</p>
+		</footer>
+
+		<!-- TypeScript bundle -->
+		{{ $script := resources.Get "ts/main.ts" }}
+		{{ if $script }}
+			{{ $opts := dict "targetPath" "js/main.js" "minify" (not hugo.IsDevelopment) }}
+			{{ $builtScript := $script | js.Build $opts }}
+			<script src="{{ $builtScript.RelPermalink }}" defer></script>
+		{{ else }}
+			{{ errorf "Required TypeScript entrypoint assets/ts/main.ts was not found" }}
+		{{ end }}
+	</body>
+</html>
