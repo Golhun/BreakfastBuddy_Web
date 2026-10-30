@@ -1,0 +1,29 @@
+{
+	"name": "breakfastbuddy_web",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Golhun/BreakfastBuddy_Web.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/Golhun/BreakfastBuddy_Web/issues"
+	},
+	"homepage": "https://github.com/Golhun/BreakfastBuddy_Web#readme",
+	"devDependencies": {
+		"@tailwindcss/cli": "^4.3.3",
+		"tailwindcss": "^4.3.3",
+		"typescript": "^7.0.2"
+	},
+	"dependencies": {
+		"motion": "^14.9.0"
+	}
+}

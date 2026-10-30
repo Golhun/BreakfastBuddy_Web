@@ -1,0 +1,15 @@
+
+node_modules/
+public/
+resources/
+.hugo_build.lock
+hugo_stats.json
+
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+!.env.example
+!.dev.vars.example
+
+.wrangler/
