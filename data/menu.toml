@@ -1,0 +1,63 @@
+[settings]
+currency = "GHS"
+addon_max_quantity = 10
+
+[[addons]]
+id = "bread"
+name = "Bread"
+unit = "4 slices"
+price_pesewas = 500
+
+[[addons]]
+id = "koose"
+name = "Koose"
+unit = "1 piece"
+price_pesewas = 100
+
+[[addons]]
+id = "bofrot"
+name = "Bofrot"
+unit = "1 piece"
+price_pesewas = 200
+
+[[addons]]
+id = "milk"
+name = "Milk"
+unit = "1 portion"
+price_pesewas = 100
+
+[[addons]]
+id = "pinkanzo"
+name = "Pinkanzo"
+unit = "1 piece"
+price_pesewas = 100
+
+[[items]]
+id = "hausa-koko"
+name = "Hausa Koko"
+description = "Traditional spiced millet porridge with two koose and sugar."
+base_price_pesewas = 1000
+portion = "Standard package"
+included = ["1 bowl of Hausa Koko", "2 koose", "Sugar"]
+addon_ids = ["koose", "milk", "bofrot", "bread", "pinkanzo"]
+image = "/images/menu/hausa-koko.png"
+
+[[items]]
+id = "oats"
+name = "Oats"
+description = "Creamy oats with bread, milk and sugar."
+base_price_pesewas = 2500
+portion = "Standard package"
+included = ["1 bowl of oats", "4 slices of bread", "1 portion of milk", "Sugar"]
+addon_ids = ["bread", "milk"]
+image = "/images/menu/oats.png"
+
+[[items]]
+id = "tom-brown"
+name = "Tom Brown"
+description = "Roasted-cereal porridge with bread, milk and sugar."
+base_price_pesewas = 2000
+portion = "Standard package"
+included = ["1 bowl of Tom Brown", "4 slices of bread", "1 portion of milk", "Sugar"]
+addon_ids = ["bread", "milk"]
+image = "/images/menu/tom-brown.png"
